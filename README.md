@@ -1,9 +1,7 @@
 # MERIDIAN 3T — demo 3D para web
 
 Visor y sala de resonancia magnética modelados en Blender y exportados a glTF
-para web. Este repositorio contiene el **pase de realismo (F1)**: la geometría,
-los materiales, la sala y las herramientas para regenerarlo todo.
-
+para web.
 ```
 meridian-3t/
   models/
@@ -136,14 +134,3 @@ start http://127.0.0.1:8100/demo/index.html
 - **F4 · compresión**: pendiente — Draco + KTX2/WebP bajarían el GLB de 4,9 MB
   a ~1,2 MB. Ahora mismo las 6 texturas van en PNG sin comprimir.
 - **F5 · presentación**: ficha PDF hecha; vídeo pendiente.
-
-### Pendientes conocidos
-
-- `thumbs/` son del modelo anterior: hay que regenerarlas con los materiales
-  nuevos (32 miniaturas para la ficha de pieza del landing).
-- El maniquí de la simulación es un asset low-poly aparte (`mannequin.glb`); se
-  ve crudo en primeros planos. Sustituirlo o retocarlo es trabajo de F3.
-- El render headless por software produce artefactos de *tiling* a 1600×900;
-  capturar a 1280×720 o menos.
-- Todas las cifras (4 500 kg, 60 kVA…) son de demostración y viven en
-  `demo/assets/data/specs.js`.
