@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>MERIDIAN 3T · banco de pruebas F1</title>
+<style>
+  html, body { margin:0; height:100%; background:#0E141B; overflow:hidden; }
+  canvas { display:block; }
+  #hud { position:fixed; left:16px; bottom:14px; font:12px/1.4 ui-monospace,monospace;
+         color:#7f8f9f; letter-spacing:.02em; }
+</style>
+</head>
+<body>
+<div id="hud">cargando…</div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const params = new URLSearchParams(location.search);
+const V = {
+  hero:  [[3.00, 2.05, 3.95], [0.05, 0.98, 0.10]],
+  front: [[0.00, 1.70, 3.90], [0.00, 1.02, 0.10]],
+  bore:  [[1.05, 1.35, 2.35], [-0.05, 1.05, -0.10]],
+};
+
+const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance', preserveDrawingBuffer:true });
+renderer.setPixelRatio(1);
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0E141B);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.22;
+
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.05, 200);
+const view = V[params.get('view')] || V.hero;
+camera.position.set(...view[0]);
+camera.lookAt(new THREE.Vector3(...view[1]));
+
+const key = new THREE.DirectionalLight(0xfff6ea, 3.0);
+key.position.set(2.6, 4.6, 6.0);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+const sc = key.shadow.camera;
+sc.near = 0.5; sc.far = 24; sc.left = -6; sc.right = 6; sc.top = 6; sc.bottom = -6;
+key.shadow.bias = -0.0008;
+key.shadow.normalBias = 0.02;
+scene.add(key);
+
+const fill = new THREE.DirectionalLight(0xdbe9ff, 0.30);
+fill.position.set(-5, 3, 2);
+scene.add(fill);
+
+const rim = new THREE.DirectionalLight(0xe8f4ff, 1.05);
+rim.position.set(0, 4, -6);
+scene.add(rim);
+
+const hud = document.getElementById('hud');
+const loader = new GLTFLoader();
+const models = {};
+let pending = 2;
+
+function done() {
+  if (--pending === 0) {
+    hud.textContent = 'MERIDIAN 3T · 32 piezas · sala · three ' + THREE.REVISION;
+    window.__ready = true;
+  }
+}
+
+loader.load('./models/MRI_Realista_Modular.glb', g => {
+  models.mri = g.scene;
+  let meshes = 0;
+  g.scene.traverse(o => {
+    if (o.isMesh) {
+      meshes++;
+      o.castShadow = true;
+      o.receiveShadow = true;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      for (const m of mats) {
+        if (m && m.isMeshPhysicalMaterial) m.envMapIntensity = 1.0;
+      }
+    }
+  });
+  scene.add(g.scene);
+  hud.textContent = 'MRI cargado (' + meshes + ' mallas)…';
+  if (params.get('nomri')) g.scene.visible = false;
+  done();
+}, undefined, e => { hud.textContent = 'error MRI: ' + e; });
+
+loader.load('./models/suite.glb', g => {
+  g.scene.traverse(o => { if (o.isMesh) { o.receiveShadow = true; o.castShadow = false; } });
+  if (params.get('nosuite')) { done(); return; }
+  scene.add(g.scene);
+  done();
+}, undefined, e => { hud.textContent = 'error sala: ' + e; });
+
+window.__parts = [];
+window.__THREE = THREE;
+window.__camera = camera;
+window.__renderer = renderer;
+window.__grab = () => { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/png'); };
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+function loop() { renderer.render(scene, camera); requestAnimationFrame(loop); }
+loop();
+</script>
+</body>
+</html>

@@ -1,0 +1,2101 @@
+{
+ "blender": "5.2.2 LTS",
+ "objects": [
+  {
+   "name": "MRI_Accent_Ring",
+   "data": "Toroide.004",
+   "parent": null,
+   "tris": 3840,
+   "verts": 2376,
+   "loc": [
+    0.0,
+    -0.6,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    2.06,
+    2.06,
+    0.044
+   ],
+   "world_min": [
+    -1.03,
+    -0.622,
+    0.02
+   ],
+   "world_max": [
+    1.03,
+    -0.578,
+    2.08
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Accent"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Alignment_Laser",
+   "data": "Cubo.041",
+   "parent": null,
+   "tris": 24,
+   "verts": 48,
+   "loc": [
+    0.0,
+    0.0,
+    1.355
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.1,
+    0.12,
+    0.0385
+   ],
+   "world_min": [
+    -0.05,
+    -0.06,
+    1.334
+   ],
+   "world_max": [
+    0.05,
+    0.06,
+    1.3725
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Dark_Base"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Base_Plinth",
+   "data": "Cubo.003",
+   "parent": null,
+   "tris": 12,
+   "verts": 24,
+   "loc": [
+    0.0,
+    0.0,
+    0.06
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    1.72,
+    1.42,
+    0.12
+   ],
+   "world_min": [
+    -0.86,
+    -0.71,
+    0.0
+   ],
+   "world_max": [
+    0.86,
+    0.71,
+    0.12
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Medium_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Bore_Light_Ring",
+   "data": "Toroide.001",
+   "parent": null,
+   "tris": 4608,
+   "verts": 2804,
+   "loc": [
+    0.0,
+    -0.42,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.69,
+    0.69,
+    0.03
+   ],
+   "world_min": [
+    -0.345,
+    -0.435,
+    0.705
+   ],
+   "world_max": [
+    0.345,
+    -0.405,
+    1.395
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Bore_Light"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Bore_Trim",
+   "data": "Toroide",
+   "parent": null,
+   "tris": 4608,
+   "verts": 2804,
+   "loc": [
+    0.0,
+    -0.605,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.838,
+    0.838,
+    0.048
+   ],
+   "world_min": [
+    -0.419,
+    -0.629,
+    0.631
+   ],
+   "world_max": [
+    0.419,
+    -0.581,
+    1.469
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Bore_Tunnel",
+   "data": "Cilindro.006",
+   "parent": null,
+   "tris": 380,
+   "verts": 392,
+   "loc": [
+    0.0,
+    0.0,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.69,
+    0.69,
+    1.34
+   ],
+   "world_min": [
+    -0.345,
+    -0.67,
+    0.705
+   ],
+   "world_max": [
+    0.345,
+    0.67,
+    1.395
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Bore_Liner"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Console_Base",
+   "data": "Cubo.013",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    1.85,
+    -1.95,
+    0.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.55,
+    0.55,
+    0.1
+   ],
+   "world_min": [
+    1.575,
+    -2.225,
+    0.0
+   ],
+   "world_max": [
+    2.125,
+    -1.675,
+    0.1
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Light_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Console_Body",
+   "data": "Cubo.014",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    1.85,
+    -1.95,
+    0.55
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.48,
+    0.48,
+    0.95
+   ],
+   "world_min": [
+    1.61,
+    -2.19,
+    0.075
+   ],
+   "world_max": [
+    2.09,
+    -1.71,
+    1.025
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_White_ABS"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Console_Screen",
+   "data": "Cubo.015",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    1.85,
+    -2.0,
+    1.14
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.46,
+    0.1,
+    0.34
+   ],
+   "world_min": [
+    1.62,
+    -2.11004,
+    0.96365
+   ],
+   "world_max": [
+    2.08,
+    -1.88996,
+    1.31635
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Screen"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Console_Tray",
+   "data": "Cubo.016",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    1.85,
+    -2.23,
+    0.98
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.44,
+    0.3,
+    0.03
+   ],
+   "world_min": [
+    1.63,
+    -2.38,
+    0.965
+   ],
+   "world_max": [
+    2.07,
+    -2.08,
+    0.995
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Light_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Emergency_Button",
+   "data": "Cilindro.001",
+   "parent": null,
+   "tris": 1628,
+   "verts": 3216,
+   "loc": [
+    2.0,
+    -2.18,
+    1.04
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.12,
+    0.12,
+    0.038
+   ],
+   "world_min": [
+    1.94,
+    -2.24,
+    1.025
+   ],
+   "world_max": [
+    2.06,
+    -2.12,
+    1.063
+   ],
+   "uv": [
+    "UVMap",
+    "UVMap.001"
+   ],
+   "mats": [
+    "MRI_Emergency_Red"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Front_Cover",
+   "data": "Cilindro.002",
+   "parent": null,
+   "tris": 768,
+   "verts": 784,
+   "loc": [
+    0.0,
+    -0.575,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    1.98,
+    1.98,
+    0.07
+   ],
+   "world_min": [
+    -0.99,
+    -0.61,
+    0.06
+   ],
+   "world_max": [
+    0.99,
+    -0.54,
+    2.04
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Grey_Panel"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Gantry_Core",
+   "data": "Cilindro",
+   "parent": null,
+   "tris": 768,
+   "verts": 784,
+   "loc": [
+    0.0,
+    0.0,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    2.0,
+    2.0,
+    1.1
+   ],
+   "world_min": [
+    -1.0,
+    -0.55,
+    0.05
+   ],
+   "world_max": [
+    1.0,
+    0.55,
+    2.05
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_White_ABS"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Handle_L",
+   "data": "Cubo.035",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    -0.55,
+    -0.635,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.05,
+    0.05,
+    0.52
+   ],
+   "world_min": [
+    -0.575,
+    -0.66,
+    0.79
+   ],
+   "world_max": [
+    -0.525,
+    -0.61,
+    1.31
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Handle_R",
+   "data": "Cubo.038",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.55,
+    -0.635,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.05,
+    0.05,
+    0.52
+   ],
+   "world_min": [
+    0.525,
+    -0.66,
+    0.79
+   ],
+   "world_max": [
+    0.575,
+    -0.61,
+    1.31
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Head_Coil",
+   "data": "Toroide.003",
+   "parent": null,
+   "tris": 1344,
+   "verts": 2496,
+   "loc": [
+    0.0,
+    -0.9,
+    0.94
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.396,
+    0.396,
+    0.04095
+   ],
+   "world_min": [
+    -0.198,
+    -0.92047,
+    0.742
+   ],
+   "world_max": [
+    0.198,
+    -0.87953,
+    1.138
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_White_ABS"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Leveling_Feet",
+   "data": "Cilindro.003",
+   "parent": null,
+   "tris": 368,
+   "verts": 576,
+   "loc": [
+    -0.78,
+    -0.62,
+    0.035
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    1.66,
+    1.34,
+    0.07
+   ],
+   "world_min": [
+    -0.83,
+    -0.67,
+    0.0
+   ],
+   "world_max": [
+    0.83,
+    0.67,
+    0.07
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Dark_Base"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Rear_Cover",
+   "data": "Cilindro.004",
+   "parent": null,
+   "tris": 768,
+   "verts": 784,
+   "loc": [
+    0.0,
+    0.575,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    1.98,
+    1.98,
+    0.07
+   ],
+   "world_min": [
+    -0.99,
+    0.54,
+    0.06
+   ],
+   "world_max": [
+    0.99,
+    0.61,
+    2.04
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Grey_Panel"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Side_Panel_L",
+   "data": "Cubo",
+   "parent": null,
+   "tris": 12,
+   "verts": 24,
+   "loc": [
+    -0.9,
+    -0.0,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.09,
+    0.72,
+    0.92
+   ],
+   "world_min": [
+    -0.945,
+    -0.36,
+    0.59
+   ],
+   "world_max": [
+    -0.855,
+    0.36,
+    1.51
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Grey_Panel"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Side_Panel_R",
+   "data": "Cubo.001",
+   "parent": null,
+   "tris": 12,
+   "verts": 24,
+   "loc": [
+    0.9,
+    0.0,
+    1.05
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.09,
+    0.72,
+    0.92
+   ],
+   "world_min": [
+    0.855,
+    -0.36,
+    0.59
+   ],
+   "world_max": [
+    0.945,
+    0.36,
+    1.51
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Grey_Panel"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Base",
+   "data": "Cubo.004",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.0,
+    -1.85,
+    0.11
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.62,
+    0.95,
+    0.22
+   ],
+   "world_min": [
+    -0.31,
+    -2.325,
+    0.0
+   ],
+   "world_max": [
+    0.31,
+    -1.375,
+    0.22
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Light_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Carriage",
+   "data": "Cubo.006",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.0,
+    -1.5,
+    0.73
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.34,
+    1.7,
+    0.1
+   ],
+   "world_min": [
+    -0.17,
+    -2.35,
+    0.68
+   ],
+   "world_max": [
+    0.17,
+    -0.65,
+    0.78
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Column",
+   "data": "Cubo.005",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.0,
+    -1.85,
+    0.44
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.4,
+    0.52,
+    0.52
+   ],
+   "world_min": [
+    -0.2,
+    -2.11,
+    0.18
+   ],
+   "world_max": [
+    0.2,
+    -1.59,
+    0.7
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Light_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_ControlPad",
+   "data": "Cubo.012",
+   "parent": null,
+   "tris": 12,
+   "verts": 24,
+   "loc": [
+    0.24,
+    -2.6,
+    0.845
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.16,
+    0.26,
+    0.02
+   ],
+   "world_min": [
+    0.16,
+    -2.73,
+    0.835
+   ],
+   "world_max": [
+    0.32,
+    -2.47,
+    0.855
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Screen"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Cushion",
+   "data": "Cubo.008",
+   "parent": null,
+   "tris": 300,
+   "verts": 600,
+   "loc": [
+    0.0,
+    -1.7,
+    0.875
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.6,
+    2.18,
+    0.09
+   ],
+   "world_min": [
+    -0.3,
+    -2.79,
+    0.83
+   ],
+   "world_max": [
+    0.3,
+    -0.61,
+    0.92
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Cushion"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Headrest",
+   "data": "Cubo.009",
+   "parent": null,
+   "tris": 300,
+   "verts": 600,
+   "loc": [
+    0.0,
+    -0.65,
+    0.94
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.34,
+    0.24,
+    0.1
+   ],
+   "world_min": [
+    -0.17,
+    -0.77,
+    0.89
+   ],
+   "world_max": [
+    0.17,
+    -0.53,
+    0.99
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Cushion"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Rail_L",
+   "data": "Cubo.010",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    -0.34,
+    -1.75,
+    0.9
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.04,
+    1.55,
+    0.06
+   ],
+   "world_min": [
+    -0.36,
+    -2.525,
+    0.87
+   ],
+   "world_max": [
+    -0.32,
+    -0.975,
+    0.93
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Rail_R",
+   "data": "Cubo.011",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.34,
+    -1.75,
+    0.9
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.04,
+    1.55,
+    0.06
+   ],
+   "world_min": [
+    0.32,
+    -2.525,
+    0.87
+   ],
+   "world_max": [
+    0.36,
+    -0.975,
+    0.93
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Brushed_Alu"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Table_Surface",
+   "data": "Cubo.007",
+   "parent": null,
+   "tris": 188,
+   "verts": 384,
+   "loc": [
+    0.0,
+    -1.7,
+    0.81
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.66,
+    2.3,
+    0.06
+   ],
+   "world_min": [
+    -0.33,
+    -2.85,
+    0.78
+   ],
+   "world_max": [
+    0.33,
+    -0.55,
+    0.84
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_White_ABS"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Top_Panel",
+   "data": "Cubo.002",
+   "parent": null,
+   "tris": 12,
+   "verts": 24,
+   "loc": [
+    0.0,
+    0.0,
+    1.995
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    1.0,
+    0.72,
+    0.09
+   ],
+   "world_min": [
+    -0.5,
+    -0.36,
+    1.95
+   ],
+   "world_max": [
+    0.5,
+    0.36,
+    2.04
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_White_ABS"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Vent_Grille_L",
+   "data": "Cubo.017",
+   "parent": null,
+   "tris": 396,
+   "verts": 864,
+   "loc": [
+    -0.945,
+    -0.0,
+    0.72
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.035,
+    0.56,
+    0.62
+   ],
+   "world_min": [
+    -0.9625,
+    -0.28,
+    0.71
+   ],
+   "world_max": [
+    -0.9275,
+    0.28,
+    1.33
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Medium_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  },
+  {
+   "name": "MRI_Vent_Grille_R",
+   "data": "Cubo.026",
+   "parent": null,
+   "tris": 396,
+   "verts": 864,
+   "loc": [
+    0.945,
+    0.0,
+    0.72
+   ],
+   "rot_deg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dims": [
+    0.035,
+    0.56,
+    0.62
+   ],
+   "world_min": [
+    0.9275,
+    -0.28,
+    0.71
+   ],
+   "world_max": [
+    0.9625,
+    0.28,
+    1.33
+   ],
+   "uv": [
+    "UVMap"
+   ],
+   "mats": [
+    "MRI_Medium_Grey"
+   ],
+   "mods": [],
+   "quads": 0,
+   "ngons": 0
+  }
+ ],
+ "empties": [],
+ "materials": [
+  {
+   "name": "MRI_Accent",
+   "users": 1,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.04,
+     0.45,
+     0.55,
+     1.0
+    ],
+    "Metallic": 0.0,
+    "Roughness": 0.35,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Bore_Light",
+   "users": 1,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Metallic": 0.0,
+    "Roughness": 0.4,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     0.65,
+     0.88,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 9.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Bore_Liner",
+   "users": 1,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.86,
+     0.88,
+     0.91,
+     1.0
+    ],
+    "Metallic": "<MATH:Math>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Brushed_Alu",
+   "users": 6,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.8,
+     0.82,
+     0.85,
+     1.0
+    ],
+    "Metallic": "<SEPARATE_COLOR:Separate Color>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_metal_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_metal_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Cushion",
+   "users": 2,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.2,
+     0.33,
+     0.46,
+     1.0
+    ],
+    "Metallic": 0.0,
+    "Roughness": 0.9,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_fabric_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Dark_Base",
+   "users": 2,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.07,
+     0.075,
+     0.085,
+     1.0
+    ],
+    "Metallic": 0.2,
+    "Roughness": 0.5,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Emergency_Red",
+   "users": 1,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.45,
+     0.03,
+     0.03,
+     1.0
+    ],
+    "Metallic": 0.0,
+    "Roughness": 0.3,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Grey_Panel",
+   "users": 4,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.58,
+     0.62,
+     0.68,
+     1.0
+    ],
+    "Metallic": "<MATH:Math>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Light_Grey",
+   "users": 4,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.72,
+     0.74,
+     0.78,
+     1.0
+    ],
+    "Metallic": "<MATH:Math>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Medium_Grey",
+   "users": 3,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.24,
+     0.26,
+     0.3,
+     1.0
+    ],
+    "Metallic": "<MATH:Math>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_Screen",
+   "users": 2,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.01,
+     0.015,
+     0.02,
+     1.0
+    ],
+    "Metallic": 0.0,
+    "Roughness": 0.22,
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": "<TEX_IMAGE:Image Texture>",
+    "Emission Strength": 2.2,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_screen",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Emission Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  },
+  {
+   "name": "MRI_White_ABS",
+   "users": 5,
+   "bsdf": true,
+   "inputs": {
+    "Base Color": [
+     0.88,
+     0.89,
+     0.91,
+     1.0
+    ],
+    "Metallic": "<MATH:Math>",
+    "Roughness": "<SEPARATE_COLOR:Separate Color>",
+    "IOR": 1.5,
+    "Alpha": 1.0,
+    "Coat Weight": 0.0,
+    "Coat Roughness": 0.03,
+    "Sheen Weight": 0.0,
+    "Sheen Roughness": 0.5,
+    "Emission Color": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "Emission Strength": 0.0,
+    "Transmission Weight": 0.0,
+    "Anisotropic": 0.0
+   },
+   "tex": [
+    {
+     "node": "Image Texture",
+     "image": "T_plastic_rough",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    },
+    {
+     "node": "Image Texture.001",
+     "image": "T_plastic_normal",
+     "size": [
+      512,
+      512
+     ],
+     "to": [
+      "Color"
+     ]
+    }
+   ],
+   "blend": "HASHED"
+  }
+ ],
+ "images": [
+  {
+   "name": "T_fabric_normal",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "Non-Color",
+   "channels": 4
+  },
+  {
+   "name": "T_metal_normal",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "Non-Color",
+   "channels": 4
+  },
+  {
+   "name": "T_metal_rough",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "Non-Color",
+   "channels": 4
+  },
+  {
+   "name": "T_plastic_normal",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "Non-Color",
+   "channels": 4
+  },
+  {
+   "name": "T_plastic_rough",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "Non-Color",
+   "channels": 4
+  },
+  {
+   "name": "T_screen",
+   "size": [
+    512,
+    512
+   ],
+   "packed": true,
+   "colorspace": "sRGB",
+   "channels": 4
+  }
+ ],
+ "totals": {
+  "meshes": 32,
+  "tris": 22812,
+  "verts": 24720
+ }
+}

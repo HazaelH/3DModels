@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MERIDIAN 3T · Resonancia magnética 3.0 T</title>
+<meta name="description" content="MERIDIAN 3T: sistema de resonancia magnética de 3.0 T con túnel de 70 cm. 32 componentes, simulación de exploración y ficha técnica." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./assets/css/main.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div id="progress" aria-hidden="true"></div>
+
+<canvas id="scene" aria-label="Modelo 3D interactivo del MERIDIAN 3T"></canvas>
+
+<header class="topbar">
+  <a class="brand" href="#hero" aria-label="MERIDIAN 3T, inicio">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/><circle cx="16" cy="16" r="2.4" fill="currentColor"/></svg>
+    <span>MERIDIAN <b>3T</b></span>
+  </a>
+  <nav class="topnav" aria-label="Secciones">
+    <a href="#sistema">Sistema</a>
+    <a href="#piezas">Componentes</a>
+    <a href="#simulacion">Simulación</a>
+    <a href="#tecnica">Ficha técnica</a>
+  </nav>
+  <a class="btn btn--ghost" href="../onepager/MERIDIAN-3T-ficha.pdf" download>Ficha PDF</a>
+</header>
+
+<main>
+
+  <section id="hero" class="section section--hero" data-pose="hero">
+    <div class="hero__copy">
+      <p class="kicker"><span class="dot"></span> Resonancia magnética · 3.0 T</p>
+      <h1 class="display">Precisión que se<br><em>ve</em> por dentro.</h1>
+      <p class="lede">
+        MERIDIAN 3T combina un túnel de 70 cm con una cadena de radiofrecuencia
+        de 32 canales. Menos claustrofobia para el paciente, más detalle para
+        el diagnóstico.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#sistema">Recorrer el sistema</a>
+        <a class="btn btn--ghost" href="../onepager/MERIDIAN-3T-ficha.pdf" download>Descargar ficha</a>
+      </div>
+      <dl class="hero__stats" aria-label="Datos del sistema">
+        <div><dt>Campo</dt><dd>3.0 <small>T</small></dd></div>
+        <div><dt>Túnel</dt><dd>70 <small>cm</small></dd></div>
+        <div><dt>Componentes</dt><dd>32</dd></div>
+        <div><dt>Mesa</dt><dd>227 <small>kg</small></dd></div>
+      </dl>
+    </div>
+    <a class="scrollhint" href="#sistema" aria-label="Bajar">
+      <span>Desliza</span>
+      <svg viewBox="0 0 12 22" aria-hidden="true"><path d="M6 1v18M1 14l5 6 5-6" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+    </a>
+  </section>
+
+  <section id="sistema" class="section section--split" data-pose="bore">
+    <div class="panel panel--sticky">
+      <p class="eyebrow">01 · El sistema</p>
+      <h2 class="h2">El túnel no debería<br>ser el obstáculo.</h2>
+      <p class="body">
+        Un bore de 70 cm y una apertura de 92 cm reducen la sensación de
+        encierro sin renunciar a la homogeneidad de campo. El paciente entra,
+        el equipo trabaja.
+      </p>
+      <ul class="list">
+        <li><b>Gradiente</b><span>45 mT/m · 200 T/m/s</span></li>
+        <li><b>Homogeneidad</b><span>±0.05 ppm / 40 cm DSV</span></li>
+        <li><b>Ruido acústico</b><span>&lt; 78 dB(A) con secuencias silenciosas</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="piezas" class="section section--split section--right" data-pose="parts">
+    <div class="panel panel--sticky">
+      <p class="eyebrow">02 · Componentes</p>
+      <h2 class="h2">32 componentes.<br>Cero cajas negras.</h2>
+      <p class="body">
+        Cada pieza del equipo está modelada por separado: se puede aislar,
+        inspeccionar y explicar. Así se ve lo que normalmente queda dentro
+        de la carcasa.
+      </p>
+      <div class="legend">
+        <span class="legend__dot"></span>
+        Haz clic en cualquier pieza para abrir su ficha.
+      </div>
+      <div class="panel__foot mono">32 PIEZAS · VISTA EXPLOSIONADA</div>
+    </div>
+  </section>
+
+  <section id="simulacion" class="section section--split" data-pose="sim">
+    <div class="panel panel--sticky">
+      <p class="eyebrow">03 · Flujo de exploración</p>
+      <h2 class="h2">Del pasillo<br>al diagnóstico.</h2>
+      <p class="body">
+        La simulación reproduce la secuencia completa: posicionamiento del
+        paciente, cierre de la bobina de cabeza, entrada en el túnel y
+        adquisición con barrido de radiofrecuencia.
+      </p>
+      <div class="sim">
+        <button id="sim-play" class="btn btn--solid" type="button">
+          <svg viewBox="0 0 12 14" aria-hidden="true"><path d="M1 1l10 6-10 6z" fill="currentColor"/></svg>
+          Reproducir simulación
+        </button>
+        <div class="sim__readout">
+          <span class="sim__phase" id="sim-phase">En espera</span>
+          <span class="sim__bar"><i id="sim-bar"></i></span>
+          <span class="mono" id="sim-time">0 %</span>
+        </div>
+      </div>
+      <p class="note">Secuencia de demostración. Tiempos y valores ficticios.</p>
+    </div>
+  </section>
+
+  <section id="tecnica" class="section section--wide" data-pose="specs">
+    <div class="panel panel--wide">
+      <p class="eyebrow">04 · Ficha técnica</p>
+      <h2 class="h2">Los números,<br>sin adornos.</h2>
+      <div class="specs-grid" id="specs-grid"></div>
+      <p class="note">* Datos de demostración para esta maqueta. No son especificaciones de un producto real.</p>    </div>
+  </section>
+
+  <section id="instalacion" class="section section--split section--right" data-pose="room">
+    <div class="panel panel--sticky">
+      <p class="eyebrow">05 · Instalación</p>
+      <h2 class="h2">Cabemos donde<br>ya hay un 1.5 T.</h2>
+      <p class="body">
+        Sala de 4.5 × 5.0 m, campo de 0.5 mT a 2.6 m y cuarto técnico
+        contiguo. El sistema llega desmontado en cinco bultos y se calibra
+        en planta.
+      </p>
+      <ul class="list list--tight">
+        <li><b>Dimensiones</b><span>4.5 × 5.0 × 2.9 m</span></li>
+        <li><b>Peso en sala</b><span>4 500 kg · 1 200 kg/m²</span></li>
+        <li><b>Alimentación</b><span>400 V · 60 kVA</span></li>
+        <li><b>Helio</b><span>1 500 L · recarga anual</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contacto" class="section section--cta" data-pose="cta">
+    <div class="cta">
+      <p class="eyebrow">06 · Siguiente paso</p>
+      <h2 class="display display--sm">¿Lo vemos<br>en su sala?</h2>
+      <p class="body">
+        Demostración guiada de 30 minutos con su equipo de radiología e
+        ingeniería. Sin compromiso.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="mailto:demo@meridian-mri.example">Solicitar demostración</a>
+        <a class="btn btn--ghost" href="../onepager/MERIDIAN-3T-ficha.pdf" download>Descargar ficha</a>
+      </div>
+      <p class="note note--center">Proyecto de demostración. MERIDIAN 3T es un nombre ficticio.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/><circle cx="16" cy="16" r="2.4" fill="currentColor"/></svg>
+    <span>MERIDIAN 3T</span>
+  </div>
+  <p class="mono">MAQUETA 3D · THREE.JS · DATOS FICTICIOS</p>
+  <a class="mono" href="#hero">Volver arriba ↑</a>
+</footer>
+
+<div id="hotspots" aria-hidden="true"></div>
+
+<aside id="card" class="card" aria-hidden="true" aria-live="polite">
+  <button class="card__close" id="card-close" aria-label="Cerrar ficha">×</button>
+  <p class="card__group" id="card-group">Gantry</p>
+  <h3 class="card__name" id="card-name">Pieza</h3>
+  <p class="card__desc" id="card-desc"></p>
+  <dl class="card__meta">
+    <div><dt>Material</dt><dd id="card-mat">—</dd></div>
+    <div><dt>Función</dt><dd id="card-fn">—</dd></div>
+  </dl>
+</aside>
+
+<div id="loader" class="loader">
+  <div class="loader__ring"></div>
+  <p class="mono">CARGANDO MODELO 3D</p>
+</div>
+
+<script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>

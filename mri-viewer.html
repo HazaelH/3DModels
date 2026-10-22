@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Resonancia Magnética — Visor 3D clínico</title>
+<style>
+  :root{
+    --bg:#eef3f9; --panel:#ffffff; --line:#dbe4ef;
+    --accent:#1a86e0; --accent2:#12a08a; --text:#152538; --muted:#5d7288;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;
+    -webkit-tap-highlight-color:transparent}
+  #app{position:fixed;inset:0}
+  canvas{display:block;touch-action:none}
+
+  #ui{position:fixed;top:18px;left:18px;width:298px;background:var(--panel);
+    border:1px solid var(--line);padding:16px;border-radius:16px;
+    box-shadow:0 12px 34px rgba(23,50,80,.12);z-index:10}
+  #uiHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  #uiToggle{display:none;flex:0 0 auto;width:auto;padding:6px 11px;margin:1px 0 0;
+    font-size:12px;background:#f2f6fb;color:var(--text);border:1px solid var(--line)}
+  #ui h1{font-size:15px;margin:0 0 4px;font-weight:750;letter-spacing:.2px}
+  #ui p{font-size:12px;margin:0 0 12px;color:var(--muted);line-height:1.5}
+  button{width:100%;padding:10px 12px;border:0;border-radius:11px;cursor:pointer;
+    font-weight:650;font-size:13px;margin-bottom:8px;transition:filter .15s,transform .05s;
+    background:var(--accent);color:#fff;font-family:inherit}
+  button:hover{filter:brightness(1.08)}
+  button:active{transform:translateY(1px)}
+  button:disabled{opacity:.55;cursor:default}
+  button.ghost{background:#f2f6fb;color:var(--text);border:1px solid var(--line)}
+  .legend{margin-top:6px;font-size:11px;color:var(--muted);line-height:1.6}
+  hr.sep{border:0;border-top:1px solid var(--line);margin:14px 0 12px}
+  .sec{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);
+    font-weight:750;margin:0 0 8px}
+  .row{display:flex;gap:8px}
+  .row button{margin-bottom:8px}
+  .phase{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+    font-size:12px;margin:2px 0 7px}
+  .phase b{font-weight:700}
+  .phase em{font-style:normal;color:var(--muted);font-size:11px}
+  .bar{height:6px;border-radius:99px;background:#e6edf6;overflow:hidden;margin-bottom:12px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .12s linear}
+  .qbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .qbtns button{margin:0;padding:7px 0;font-size:12px;background:#f2f6fb;color:var(--text);
+    border:1px solid var(--line)}
+  .qbtns button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  /* Card de características */
+  #card{position:fixed;top:18px;right:18px;width:340px;max-height:calc(100vh - 36px);
+    overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 16px 44px rgba(23,50,80,.18);
+    transform:translateX(120%);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;
+    z-index:11}
+  #card.show{transform:translateX(0);opacity:1}
+  #card .thumb{height:190px;background:#f4f8fc;border-bottom:1px solid var(--line);
+    border-radius:18px 18px 0 0;overflow:hidden;display:grid;place-items:center}
+  #card .thumb img{width:100%;height:100%;object-fit:contain}
+  #card .body{padding:14px 16px 18px;position:relative}
+  .chip{display:inline-block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;
+    color:#fff;background:var(--accent2);padding:3px 9px;border-radius:999px;font-weight:750;margin-bottom:8px}
+  #card h2{margin:0;font-size:17px;font-weight:720;line-height:1.25}
+  .desc{margin:10px 0 0;font-size:13px;color:#42586e;line-height:1.55}
+  ul.specs{list-style:none;margin:12px 0 0;padding:0}
+  ul.specs li{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;
+    padding:8px 0;border-bottom:1px dashed var(--line)}
+  ul.specs li span:first-child{color:var(--muted)}
+  ul.specs li span:last-child{font-weight:650;text-align:right}
+  #close{position:absolute;top:10px;right:12px;width:30px;height:30px;border-radius:9px;
+    background:#eef3f9;border:1px solid var(--line);color:var(--text);
+    cursor:pointer;font-size:14px;line-height:1;display:grid;place-items:center}
+
+  #hint{position:fixed;bottom:16px;left:18px;font-size:12px;color:var(--muted);z-index:10;
+    max-width:60vw}
+  #loading{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:30;
+    font-size:14px;color:var(--muted);letter-spacing:.4px}
+  @media (max-width:820px){
+    #card{left:12px;right:12px;width:auto;top:auto;bottom:12px;max-height:48vh;
+      transform:translateY(120%)}
+    #card.show{transform:translateY(0)}
+    #ui{width:calc(100% - 24px);left:12px;top:12px;max-height:calc(100vh - 24px);overflow:auto;
+      padding:13px 14px}
+    #ui p{margin-bottom:9px}
+    button{padding:9px 10px}
+    #uiToggle{display:block}
+    #ui.collapsed{padding-bottom:13px;overflow:hidden}
+    #ui.collapsed #uiBody{display:none}
+    #ui.collapsed h1{margin-bottom:0}
+    #hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading">Cargando modelo…</div>
+
+<div id="ui">
+  <div id="uiHead">
+    <h1>Máquina de Resonancia Magnética</h1>
+    <button id="uiToggle" aria-expanded="true">Ocultar</button>
+  </div>
+  <div id="uiBody">
+  <p><b>Clic en cualquier pieza</b> para hacer zoom y ver su ficha técnica.</p>
+  <button id="explode">🔓 Desplegar todas las piezas</button>
+  <button id="reset" class="ghost">↺ Recoger todas</button>
+  <button id="spin" class="ghost">⚙ Rotación automática: ON</button>
+
+  <hr class="sep" />
+  <p class="sec">Simulación del estudio</p>
+  <div class="phase"><b id="simPhase">Listo para empezar</b><em id="simTime">0 %</em></div>
+  <div class="bar"><i id="simBar"></i></div>
+  <button id="simPlay">▶ Iniciar simulación</button>
+  <button id="simReset" class="ghost">↺ Reiniciar simulación</button>
+
+  <hr class="sep" />
+  <p class="sec">Calidad gráfica <span id="qNow" style="text-transform:none;letter-spacing:0"></span></p>
+  <div class="qbtns">
+    <button data-q="0">Baja</button>
+    <button data-q="1">Media</button>
+    <button data-q="2">Alta</button>
+  </div>
+  <div class="legend" style="margin-top:8px">Arrastra = orbitar · Pellizco/Rueda = zoom · Clic fondo = deseleccionar</div>
+  </div>
+</div>
+
+<div id="card">
+  <div class="thumb"><img id="thumb" alt="" /></div>
+  <div class="body">
+    <button id="close">✕</button>
+    <span class="chip" id="chip">—</span>
+    <h2 id="title">—</h2>
+    <div class="desc" id="desc"></div>
+    <ul class="specs" id="specs"></ul>
+  </div>
+</div>
+
+<div id="hint">Three.js · GLB con texturas PBR</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+/* ============================================================
+   FICHAS TÉCNICAS
+   ============================================================ */
+const INFO = {
+  MRI_Gantry_Core:      {cat:'Imán', title:'Cuerpo del Imán (Gantry)',
+    desc:'Estructura principal que aloja el imán superconductor y las bobinas de gradiente encargadas de generar y codificar el campo magnético.',
+    specs:{'Tipo':'Superconductor','Campo':'1.5 T','Diámetro exterior':'2.0 m','Peso aprox.':'4 500 kg','Refrigeración':'Helio líquido'}},
+  MRI_Top_Panel:        {cat:'Cubierta', title:'Panel Superior',
+    desc:'Cubierta superior desmontable que protege el sistema de refrigeración y da acceso al servicio técnico.',
+    specs:{'Función':'Cubierta de servicio','Material':'ABS blanco','Extraíble':'Sí'}},
+  MRI_Front_Cover:      {cat:'Cubierta', title:'Cubierta Frontal',
+    desc:'Careado frontal del gantry con el aro del túnel. Estéticamente limpio y resistente a la limpieza hospitalaria.',
+    specs:{'Material':'ABS gris','Acabado':'Satinado','Fijación':'Tornillería oculta'}},
+  MRI_Rear_Cover:       {cat:'Cubierta', title:'Cubierta Trasera',
+    desc:'Cierre posterior del imán. Aloja las conexiones de helio, cables de gradiente y sensores.',
+    specs:{'Material':'ABS gris','Acceso':'Panel de servicio','Conexiones':'Helio + gradientes'}},
+  MRI_Side_Panel_L:     {cat:'Cubierta', title:'Panel Lateral Izquierdo',
+    desc:'Panel de acceso lateral con rejilla de ventilación integrada para la disipación térmica del imán.',
+    specs:{'Lado':'Izquierdo','Ventilación':'Integrada','Apertura':'Con herramienta'}},
+  MRI_Side_Panel_R:     {cat:'Cubierta', title:'Panel Lateral Derecho',
+    desc:'Panel de acceso lateral con rejilla de ventilación integrada para la disipación térmica del imán.',
+    specs:{'Lado':'Derecho','Ventilación':'Integrada','Apertura':'Con herramienta'}},
+  MRI_Bore_Tunnel:      {cat:'Imán', title:'Túnel del Bore',
+    desc:'Interior del túnel donde se introduce el paciente. Superficie lisa, higiénica y libre de aristas.',
+    specs:{'Diámetro':'70 cm','Longitud':'134 cm','Acabado':'Antibacteriano','Iluminación':'LED interno'}},
+  MRI_Bore_Trim:        {cat:'Imán', title:'Aro Embellecedor',
+    desc:'Moldura de aluminio cepillado que remata la embocadura del túnel aportando un acabado premium.',
+    specs:{'Material':'Aluminio cepillado','Función':'Remate estético'}},
+  MRI_Accent_Ring:      {cat:'Diseño', title:'Aro de Acento',
+    desc:'Aro decorativo teal que enmarca la embocadura del túnel y aporta identidad visual al equipo.',
+    specs:{'Función':'Detalle de diseño','Material':'Policarbonato','Color':'Azul clínico'}},
+  MRI_Bore_Light_Ring:  {cat:'Iluminación', title:'Anillo de Luz LED',
+    desc:'Iluminación interior regulable que reduce la ansiedad del paciente y mejora la experiencia durante el estudio.',
+    specs:{'Tipo':'LED regulable','Temperatura color':'4000 K','Función':'Confort del paciente'}},
+  MRI_Base_Plinth:      {cat:'Estructura', title:'Bancada Estructural',
+    desc:'Base de acero que soporta todo el conjunto del gantry y lo ancla al suelo. Nivelable y antivibratoria.',
+    specs:{'Material':'Acero','Función':'Soporte y anclaje','Elementos':'Patas niveladoras'}},
+  MRI_Leveling_Feet:    {cat:'Estructura', title:'Patas de Nivelación',
+    desc:'Apoyos regulables que garantizan que el equipo quede perfectamente a nivel sobre el suelo de la sala.',
+    specs:{'Cantidad':'4','Función':'Nivelación','Material':'Acero'}},
+  MRI_Vent_Grille_L:    {cat:'Refrigeración', title:'Rejilla de Ventilación Izq.',
+    desc:'Lamas que permiten la salida del aire caliente del sistema sin comprometer la seguridad del paciente.',
+    specs:{'Lado':'Izquierdo','Función':'Disipación térmica'}},
+  MRI_Vent_Grille_R:    {cat:'Refrigeración', title:'Rejilla de Ventilación Der.',
+    desc:'Lamas que permiten la salida del aire caliente del sistema sin comprometer la seguridad del paciente.',
+    specs:{'Lado':'Derecho','Función':'Disipación térmica'}},
+  MRI_Handle_L:         {cat:'Mecánica', title:'Tirador Izquierdo',
+    desc:'Asidero para el reposicionamiento del gantry y labores de mantenimiento.',
+    specs:{'Material':'Aluminio','Lado':'Izquierdo'}},
+  MRI_Handle_R:         {cat:'Mecánica', title:'Tirador Derecho',
+    desc:'Asidero para el reposicionamiento del gantry y labores de mantenimiento.',
+    specs:{'Material':'Aluminio','Lado':'Derecho'}},
+  MRI_Alignment_Laser:  {cat:'Precisión', title:'Láser de Alineación',
+    desc:'Sistema de luz láser que marca el isocentro del imán para posicionar al paciente con precisión milimétrica.',
+    specs:{'Función':'Isocentro','Precisión':'±1 mm','Tipo':'Láser visible'}},
+  MRI_Table_Base:       {cat:'Camilla', title:'Base de la Camilla',
+    desc:'Soporte inferior de la camilla del paciente, con anclaje al suelo y paso de cableado.',
+    specs:{'Material':'Acero lacado','Función':'Soporte','Anclaje':'Al suelo'}},
+  MRI_Table_Column:     {cat:'Camilla', title:'Columna Telescópica',
+    desc:'Mecanismo de elevación que ajusta la altura de la camilla desde la posición de carga hasta la de exploración.',
+    specs:{'Función':'Elevación','Carrera':'±20 cm','Accionamiento':'Motorizado'}},
+  MRI_Table_Carriage:   {cat:'Camilla', title:'Carro de Desplazamiento',
+    desc:'Guía de precisión que introduce la mesa del paciente dentro del túnel hasta la posición de escaneo.',
+    specs:{'Función':'Entrada al bore','Precisión':'Alta','Recorrido':'≈ 200 cm'}},
+  MRI_Table_Surface:    {cat:'Camilla', title:'Superficie de la Camilla',
+    desc:'Plataforma rígida y radiotransparente donde se coloca al paciente. Compatible con todos los accesorios de posicionamiento.',
+    specs:{'Material':'Composite','Longitud':'230 cm','Ancho':'66 cm','Carga máx.':'250 kg'}},
+  MRI_Table_Cushion:    {cat:'Camilla', title:'Cojín Acolchado',
+    desc:'Cojín ergonómico de espuma que mejora el confort del paciente durante estudios prolongados.',
+    specs:{'Material':'Espuma médica','Relleno':'Antibacteriano','Confort':'Alta densidad'}},
+  MRI_Table_Headrest:   {cat:'Camilla', title:'Reposacabezas',
+    desc:'Soporte anatómico para inmovilizar y acomodar la cabeza del paciente dentro de la bobina.',
+    specs:{'Función':'Soporte cefálico','Ajustable':'Sí'}},
+  MRI_Table_Rail_L:     {cat:'Camilla', title:'Raíl Lateral Izquierdo',
+    desc:'Guía de aluminio para montar accesorios (antenas, soportes, inmovilizadores) de forma rápida.',
+    specs:{'Material':'Aluminio','Función':'Anclaje de accesorios','Lado':'Izquierdo'}},
+  MRI_Table_Rail_R:     {cat:'Camilla', title:'Raíl Lateral Derecho',
+    desc:'Guía de aluminio para montar accesorios (antenas, soportes, inmovilizadores) de forma rápida.',
+    specs:{'Material':'Aluminio','Función':'Anclaje de accesorios','Lado':'Derecho'}},
+  MRI_Table_ControlPad: {cat:'Control', title:'Panel de Control de Camilla',
+    desc:'Tira de botones que permite al operador mover la camilla y ajustar la iluminación junto al paciente.',
+    specs:{'Función':'Control de mesa','Botones':'Movimiento + luz','Iluminación':'Retroiluminado'}},
+  MRI_Head_Coil:        {cat:'Antena', title:'Bobina de Cabeza (RF)',
+    desc:'Antena de radiofrecuencia de recepción para estudios de cerebro. Mejora la relación señal-ruido de la imagen.',
+    specs:{'Tipo':'RF de recepción','Canales':'32','Aplicación':'Neuro','Posición':'Sobre la cabeza'}},
+  MRI_Console_Base:     {cat:'Consola', title:'Base de la Consola',
+    desc:'Pedestal estable que soporta la consola del operador y organiza el cableado de datos.',
+    specs:{'Material':'Acero','Función':'Soporte'}},
+  MRI_Console_Body:     {cat:'Consola', title:'Cuerpo de la Consola',
+    desc:'Unidad de control del operador desde donde se lanza y supervisa el estudio radiológico.',
+    specs:{'Función':'Estación de operador','Ubicación':'Sala de control','Conexión':'DICOM'}},
+  MRI_Console_Screen:   {cat:'Consola', title:'Pantalla del Operador',
+    desc:'Monitor de diagnóstico donde se visualizan las secuencias, parámetros del estudio y resultados en tiempo real.',
+    specs:{'Función':'Visualización','Tamaño':'24"','Resolución':'Diagnóstica','Interfaz':'DICOM'}},
+  MRI_Console_Tray:     {cat:'Consola', title:'Bandeja / Teclado',
+    desc:'Repisa para teclado, ratón y accesorios de trabajo del técnico radiólogo.',
+    specs:{'Función':'Bandeja de trabajo','Material':'ABS gris'}},
+  MRI_Emergency_Button: {cat:'Seguridad', title:'Botón de Emergencia',
+    desc:'Parada de emergencia que aborta el escaneo y retira la mesa de inmediato ante cualquier incidente.',
+    specs:{'Función':'Parada de emergencia','Color':'Rojo','Acción':'Retirada inmediata de mesa'}}
+};
+
+/* ============================================================
+   CALIDAD ADAPTATIVA
+   ============================================================ */
+const COARSE = matchMedia('(pointer:coarse)').matches;
+const TIERS = [
+  { name:'Baja',  dpr:1,                              shadow:false, map:512  },
+  { name:'Media', dpr:Math.min(devicePixelRatio,1.5), shadow:true,  map:1024 },
+  { name:'Alta',  dpr:Math.min(devicePixelRatio,2),   shadow:true,  map:2048 },
+];
+const cores = navigator.hardwareConcurrency || 4;
+const memGB = navigator.deviceMemory || 4;
+let tier = 2;
+if (cores <= 4 || memGB <= 4) tier = 1;
+if (cores <= 2 || memGB <= 2) tier = 0;
+let qualityLocked = false;
+
+/* ============================================================
+   ESCENA (tema claro clínico)
+   ============================================================ */
+const app = document.getElementById('app');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xeef3f9);
+
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.05, 200);
+
+/* ------------------------------------------------------------
+   VISTAS
+   La distancia de cámara se calcula para que todo el equipo
+   entre completo en pantalla, sea cual sea la relación de aspecto
+   (móvil vertical, tableta, portátil, monitor panorámico).
+   ------------------------------------------------------------ */
+const HOME_DIR  = new THREE.Vector3(4.5, 1.9, 5.6).normalize();
+const SIM_DIR   = new THREE.Vector3(-3.0, 2.55, 4.7).normalize();
+const HOME_POS  = new THREE.Vector3(4.6, 2.9, 5.4);     // provisionales: updateViews() las recalcula
+const HOME_LOOK = new THREE.Vector3(0.1, 1.0, -0.2);
+const SIM_POS   = new THREE.Vector3(-3.0, 3.4, 5.8);
+const SIM_LOOK  = new THREE.Vector3(0, 0.85, 1.1);
+const FIT = { l:0.84, r:0.84, t:0.84, b:0.88 };     // margen libre en coordenadas normalizadas
+
+const fitPts = [];      // esquinas (en mundo) de la caja de cada pieza, se llenan al cargar el modelo
+const simPts = [];      // lo anterior + la zona que ocupa el paciente de pie
+const PATIENT_SPAN = new THREE.Box3(new THREE.Vector3(-0.45, 0.0, 2.15),
+                                    new THREE.Vector3( 0.45, 1.85, 3.50));
+
+const _c = new THREE.Vector3(), _cx = new THREE.Vector3();
+const _cy = new THREE.Vector3(), _cz = new THREE.Vector3(), _up = new THREE.Vector3(0,1,0);
+function fitDistance(pts, look, dir){
+  _cz.copy(dir).normalize();
+  _cx.crossVectors(_up, _cz).normalize();
+  _cy.crossVectors(_cz, _cx);
+  const ty = Math.tan(THREE.MathUtils.degToRad(camera.fov) * 0.5);
+  const tx = ty * camera.aspect;
+  let d = 0.5;
+  for (const p of pts){
+    _c.copy(p).sub(look);
+    const ax = _c.dot(_cx), ay = _c.dot(_cy), az = _c.dot(_cz);
+    if (ax > 0) d = Math.max(d, az + ax / (FIT.r * tx));
+    if (ax < 0) d = Math.max(d, az - ax / (FIT.l * tx));
+    if (ay > 0) d = Math.max(d, az + ay / (FIT.t * ty));
+    if (ay < 0) d = Math.max(d, az - ay / (FIT.b * ty));
+  }
+  return d;
+}
+/* Coloca la cámara de modo que todo el contenido entre en pantalla y quede
+   centrado; si no, la parte cercana de la camilla lo desplaza hacia abajo y
+   se desaprovecha media pantalla. `offsetX` permite apartarlo del panel. */
+function frameView(pts, look, dir, out, offsetX = 0){
+  let d = 0.5;
+  for (let it = 0; it < 6; it++){
+    d = fitDistance(pts, look, dir);
+    _cz.copy(dir).normalize();
+    _cx.crossVectors(_up, _cz).normalize();
+    _cy.crossVectors(_cz, _cx);
+    const ty = Math.tan(THREE.MathUtils.degToRad(camera.fov) * 0.5);
+    const tx = ty * camera.aspect;
+    let xlo = 1e9, xhi = -1e9, ylo = 1e9, yhi = -1e9;
+    for (const p of pts){
+      _c.copy(p).sub(look);
+      const depth = d - _c.dot(_cz);
+      const nx = _c.dot(_cx) / (depth * tx), ny = _c.dot(_cy) / (depth * ty);
+      if (nx < xlo) xlo = nx;  if (nx > xhi) xhi = nx;
+      if (ny < ylo) ylo = ny;  if (ny > yhi) yhi = ny;
+    }
+    const ex = (xlo + xhi) * 0.5 - offsetX, ey = (ylo + yhi) * 0.5;
+    if (Math.abs(ex) < 0.004 && Math.abs(ey) < 0.004) break;
+    look.addScaledVector(_cx, ex * d * tx);
+    look.addScaledVector(_cy, ey * d * ty);
+  }
+  out.copy(look).addScaledVector(dir, d);
+}
+function updateViews(){
+  if (fitPts.length) frameView(fitPts, HOME_LOOK, HOME_DIR, HOME_POS);
+  if (simPts.length) frameView(simPts, SIM_LOOK,  SIM_DIR,  SIM_POS);
+}
+function buildFitPoints(){
+  const v = new THREE.Vector3();
+  fitPts.length = 0; simPts.length = 0;
+  root.updateMatrixWorld(true);
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    const g = o.geometry.boundingBox;
+    for (let i = 0; i < 8; i++){
+      v.set(i & 1 ? g.max.x : g.min.x, i & 2 ? g.max.y : g.min.y, i & 4 ? g.max.z : g.min.z)
+       .applyMatrix4(o.matrixWorld);
+      fitPts.push(v.clone());
+      simPts.push(v.clone());
+    }
+  });
+  for (let i = 0; i < 8; i++){
+    v.set(i & 1 ? PATIENT_SPAN.max.x : PATIENT_SPAN.min.x,
+          i & 2 ? PATIENT_SPAN.max.y : PATIENT_SPAN.min.y,
+          i & 4 ? PATIENT_SPAN.max.z : PATIENT_SPAN.min.z);
+    simPts.push(v.clone());
+  }
+  updateViews();
+}
+updateViews();
+camera.position.copy(HOME_POS);
+
+const renderer = new THREE.WebGLRenderer({ antialias: !COARSE || cores >= 8, powerPreference:'high-performance' });
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.25;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.autoUpdate = false;      // solo se recalcula cuando algo se mueve
+app.appendChild(renderer.domElement);
+
+let needsRender = true;                     // se dibuja solo cuando algo cambia (ahorro de batería)
+const requestRender = () => { needsRender = true; };
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 1.0; controls.maxDistance = 26;
+controls.target.copy(HOME_LOOK);
+controls.autoRotate = true; controls.autoRotateSpeed = 0.55;
+controls.addEventListener('change', () => requestRender());
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xd7e0ea, 1.0));
+const key = new THREE.DirectionalLight(0xffffff, 2.2);
+key.position.set(5, 8, 5); key.castShadow = true;
+const sc = key.shadow.camera; sc.near = 1; sc.far = 32; sc.left = -6; sc.right = 6; sc.top = 6; sc.bottom = -6;
+key.shadow.bias = -0.0004; key.shadow.radius = 4;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffffff, 0.6); fill.position.set(-6, 4, -3); scene.add(fill);
+const rim  = new THREE.DirectionalLight(0xdbe9ff, 0.8); rim.position.set(0, 4, -7); scene.add(rim);
+
+const ground = new THREE.Mesh(
+  new THREE.CircleGeometry(10, 80),
+  new THREE.MeshStandardMaterial({ color:0xe4eaf2, roughness:0.95, metalness:0.0 })
+);
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+
+function applyQuality(showLabel){
+  const t = TIERS[tier];
+  renderer.setPixelRatio(t.dpr);
+  renderer.setSize(innerWidth, innerHeight);
+  const changed = renderer.shadowMap.enabled !== t.shadow;
+  renderer.shadowMap.enabled = t.shadow;
+  key.castShadow = t.shadow;
+  if (key.shadow.map){ key.shadow.map.dispose(); key.shadow.map = null; }
+  key.shadow.mapSize.set(t.map, t.map);
+  if (changed) scene.traverse(o => { if (o.isMesh && o.material) {
+    (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => m.needsUpdate = true);
+  }});
+  renderer.shadowMap.needsUpdate = true;
+  document.querySelectorAll('.qbtns button').forEach(b => b.classList.toggle('on', +b.dataset.q === tier));
+  if (showLabel) document.getElementById('qNow').textContent = '· ' + t.name;
+  needsRender = true;
+}
+document.querySelectorAll('.qbtns button').forEach(b => b.onclick = () => {
+  tier = +b.dataset.q; qualityLocked = true; applyQuality(true);
+});
+applyQuality(true);
+
+/* ============================================================
+   CARGA DEL EQUIPO
+   ============================================================ */
+const parts = [];
+const slideParts = [];              // piezas que entran al túnel con la mesa
+const SLIDE_NAMES = ['MRI_Table_Surface','MRI_Table_Cushion','MRI_Table_Headrest',
+                     'MRI_Table_Rail_L','MRI_Table_Rail_R','MRI_Table_ControlPad','MRI_Head_Coil'];
+const MAX_SLIDE = 0.92;             // desplazamiento hacia el túnel (unidades Blender)
+let root = null, loaded = 0;
+const loader = new GLTFLoader();
+const GLB_URL = './models/MRI_Realista_Modular.glb';
+
+const byName = {};
+let motionUntil = 0;
+const touchMotion = (secs=1.2) => { motionUntil = Math.max(motionUntil, performance.now()/1000 + secs); };
+
+loader.load(GLB_URL, (gltf) => {
+  root = gltf.scene; scene.add(root);
+  const center = new THREE.Vector3(0, 1.0, -0.2);
+
+  // El GLB actual tiene piezas con varios materiales (detalle unido al nodo), asi
+  // que three.js crea un grupo con una malla por primitiva. La pieza es el NODO:
+  // se agrupan las primitivas por nombre y se mueve/resalta el nodo completo.
+  const nodeMap = new Map();
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    o.castShadow = true; o.receiveShadow = true;
+    const meshMats = Array.isArray(o.material) ? o.material : [o.material];
+    o.material = meshMats.length === 1 ? meshMats[0].clone() : meshMats.map(m => m.clone());
+    const cloned = Array.isArray(o.material) ? o.material : [o.material];
+    for (const m of cloned){
+      m.userData = m.userData || {};
+      m.userData.baseEmissive = m.emissive ? m.emissive.clone() : null;
+      m.userData.baseEmissiveIntensity = m.emissiveIntensity ?? 1;
+    }
+    // el nombre de la pieza es el del nodo padre si la malla es una primitiva
+    const pname = (INFO[o.name] ? o.name
+                 : (o.parent && INFO[o.parent.name] ? o.parent.name : o.name));
+    if (!nodeMap.has(pname)) nodeMap.set(pname, []);
+    nodeMap.get(pname).push(o);
+  });
+
+  for (const [name, meshes] of nodeMap){
+    const anchor = (meshes.length === 1) ? meshes[0]
+                 : (meshes[0].parent && meshes[0].parent.name === name ? meshes[0].parent : meshes[0]);
+    const mats = [];
+    for (const m of meshes){
+      for (const mm of (Array.isArray(m.material) ? m.material : [m.material]))
+        if (!mats.includes(mm)) mats.push(mm);
+    }
+    const home = anchor.position.clone();
+    const dir = home.clone().sub(center);
+    if (dir.length() < 0.01) dir.set(0, 1, 0);
+    dir.normalize();
+    const strength = 0.5 + Math.min(home.length(), 2.4) * 0.4;
+    const exploded = home.clone().add(dir.multiplyScalar(strength));
+    const p = { name, meshes, mats, mesh:anchor, home, exploded,
+                cur:home.clone(), offset:new THREE.Vector3(), open:false };
+    parts.push(p); byName[name] = p;
+    if (SLIDE_NAMES.includes(name)) slideParts.push(p);
+    loaded++;
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('hint').textContent = `Three.js · ${loaded} piezas · GLB con texturas PBR`;
+  buildFitPoints();                                     // encuadre definitivo según lo cargado
+  if (!selected && !SIM.active && !tween){              // colocar la cámara en la vista inicial
+    camera.position.copy(HOME_POS); controls.target.copy(HOME_LOOK);
+  }
+  renderer.shadowMap.needsUpdate = true;
+  window.__parts = parts;                                   // (debug/test)
+  window.__selectedName = () => selected ? selected.mesh.name : null;
+}, undefined, (err) => {
+  document.getElementById('loading').textContent = 'Error al cargar el GLB (usa un servidor local).';
+  console.error(err);
+});
+
+/* ============================================================
+   PACIENTE (maniquí) — CARGA DIFERIDA
+   ============================================================ */
+const patient = {
+  pivot: new THREE.Group(), scene:null, mixer:null, action:null,
+  dur:0, mats:[], ready:false, loading:false
+};
+patient.pivot.visible = false;
+scene.add(patient.pivot);
+
+// Puntero luminoso que barre el túnel durante la adquisición
+const sweep = new THREE.Mesh(
+  new THREE.TorusGeometry(0.345, 0.012, 8, 56),
+  new THREE.MeshBasicMaterial({ color:0x74d0ff, transparent:true, opacity:0.0,
+                                blending:THREE.AdditiveBlending, depthWrite:false })
+);
+sweep.position.set(0, 1.045, 0.8); sweep.visible = false; scene.add(sweep);
+
+// Bobina de cabeza (RF): pieza real de Blender (models/head_coil.glb).
+// Va en un GLB aparte para no alterar los 32 nodos MRI_*: el visor la carga
+// igual que el maniqui y la coloca sobre la cabeza durante la simulacion.
+const cage = new THREE.Group();
+cage.userData = { mats: [], top: null, ready: false, loading: false };
+cage.visible = false; scene.add(cage);
+
+function loadCoil(cb){
+  if (cage.userData.ready) { cb && cb(); return; }
+  if (cage.userData.loading) return;
+  cage.userData.loading = true;
+  new GLTFLoader().load('./models/head_coil.glb', (gltf) => {
+    const s = gltf.scene;
+    s.traverse(o => {
+      if (!o.isMesh) return;
+      o.castShadow = true; o.receiveShadow = true;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      o.material = mats.length === 1 ? mats[0].clone() : mats.map(m => m.clone());
+      const clone = Array.isArray(o.material) ? o.material : [o.material];
+      for (const m of clone){
+        m.userData = m.userData || {};
+        m.userData.baseEmissive = m.emissive ? m.emissive.clone() : null;
+        m.userData.baseEmissiveIntensity = m.emissiveIntensity ?? 1;
+        if (!cage.userData.mats.includes(m)) cage.userData.mats.push(m);
+      }
+    });
+    cage.add(s);
+    cage.userData.top = s.getObjectByName('COIL_Top');
+    cage.userData.ready = true; cage.userData.loading = false;
+    renderer.shadowMap.needsUpdate = true;
+    cb && cb();
+  }, undefined, (e) => {
+    cage.userData.loading = false;
+    console.error('bobina de cabeza:', e);
+  });
+}
+loadCoil();
+const headWorld = new THREE.Vector3();
+const headBox = new THREE.Box3();
+
+function loadPatient(cb){
+  if (patient.ready) return cb();
+  if (patient.loading) return;
+  patient.loading = true;
+  document.getElementById('simPhase').textContent = 'Preparando paciente…';
+  new GLTFLoader().load('./models/mannequin.glb', (gltf) => {
+    const s = gltf.scene;
+    s.traverse(o => {
+      if (!o.isMesh) return;
+      o.castShadow = true; o.receiveShadow = true;
+      const m = o.material;
+      if (m && patient.mats.indexOf(m) === -1){
+        m.transparent = true; m.opacity = 0; m.depthWrite = true;
+        patient.mats.push(m);
+      }
+    });
+    patient.pivot.add(s);
+    patient.scene = s;
+    patient.mixer = new THREE.AnimationMixer(s);
+    const clip = gltf.animations[0];
+    patient.dur = clip.duration;
+    patient.action = patient.mixer.clipAction(clip);
+    patient.action.loop = THREE.LoopOnce;
+    patient.action.clampWhenFinished = true;
+    patient.action.play();
+    patient.action.time = 0;
+    patient.mixer.update(0);                 // fija la pose inicial (de pie)
+    patient.head = s.getObjectByName('M_Head') || null;
+    patient.ready = true; patient.loading = false;
+    patient.pivot.visible = false;
+    renderer.shadowMap.needsUpdate = true;
+    cb();
+  }, undefined, (e) => {
+    patient.loading = false;
+    document.getElementById('simPhase').textContent = 'No se pudo cargar el maniquí';
+    console.error(e);
+  });
+}
+
+/* ============================================================
+   PANEL PLEGABLE (móvil)
+   ============================================================ */
+const $ui = document.getElementById('ui');
+const $uiToggle = document.getElementById('uiToggle');
+function setCollapsed(c){
+  $ui.classList.toggle('collapsed', c);
+  $uiToggle.textContent = c ? 'Opciones' : 'Ocultar';
+  $uiToggle.setAttribute('aria-expanded', String(!c));
+}
+$uiToggle.onclick = () => setCollapsed(!$ui.classList.contains('collapsed'));
+if (COARSE || innerWidth <= 820) setCollapsed(true);
+
+/* ============================================================
+   SELECCIÓN · ZOOM · CARD
+   ============================================================ */
+const card = document.getElementById('card');
+const $thumb = document.getElementById('thumb');
+const $chip = document.getElementById('chip');
+const $title = document.getElementById('title');
+const $desc = document.getElementById('desc');
+const $specs = document.getElementById('specs');
+const $thumbBox = card.querySelector('.thumb');
+let selected = null;
+
+const ray = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function setHighlight(p, on){
+  for (const m of p.mats){
+    if (!m.emissive) continue;
+    if (on){ m.emissive.set(0x1a86e0); m.emissiveIntensity = 0.55; }
+    else {
+      if (m.userData.baseEmissive) m.emissive.copy(m.userData.baseEmissive);
+      m.emissiveIntensity = m.userData.baseEmissiveIntensity ?? 1;
+    }
+  }
+}
+
+function showCard(name){
+  const d = INFO[name] || { cat:'Componente', title:name.replace(/^MRI_/,'').replace(/_/g,' '), desc:'', specs:{} };
+  $chip.textContent = d.cat; $title.textContent = d.title; $desc.textContent = d.desc;
+  $specs.innerHTML = Object.entries(d.specs).map(([k,v]) => `<li><span>${k}</span><span>${v}</span></li>`).join('');
+  $thumb.onerror = () => { $thumbBox.style.display = 'none'; };
+  $thumbBox.style.display = 'grid';
+  $thumb.src = './thumbs/' + name + '.webp';
+  $thumb.alt = d.title;
+  card.classList.add('show');
+}
+function hideCard(){ card.classList.remove('show'); }
+
+let tween = null;
+function flyTo(pos, look, dur=0.9){
+  tween = { t0: performance.now()/1000, dur,
+    fromPos: camera.position.clone(), toPos: pos.clone(),
+    fromLook: controls.target.clone(), toLook: look.clone() };
+}
+
+function selectPart(p){
+  if (selected && selected !== p) setHighlight(selected, false);
+  selected = p;
+  setHighlight(p, true);
+  showCard(p.mesh.name);          // ⚠️ NO movemos la pieza: se queda en su posición
+
+  const box = new THREE.Box3().setFromObject(p.mesh);
+  const sph = box.getBoundingSphere(new THREE.Sphere());
+  // La ficha va siempre a la derecha en pantallas anchas: a la izquierda taparía
+  // el panel de control. En móvil el CSS la convierte en hoja inferior.
+
+  const dir = new THREE.Vector3().subVectors(camera.position, controls.target).normalize();
+  const dist = Math.max(sph.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov*0.5)) * 1.75, 1.5);
+  controls.autoRotate = false; reflectSpin();
+  flyTo(sph.center.clone().add(dir.multiplyScalar(dist)), sph.center);
+}
+
+function deselect(){
+  if (selected){ setHighlight(selected, false); selected = null; }
+  hideCard();
+  flyTo(HOME_POS, HOME_LOOK);
+}
+
+let pointerDown = null;
+renderer.domElement.addEventListener('pointerdown', e => { pointerDown = [e.clientX, e.clientY]; requestRender(); });
+renderer.domElement.addEventListener('pointermove', e => { if (pointerDown) requestRender(); });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (!pointerDown) return;
+  const moved = Math.hypot(e.clientX-pointerDown[0], e.clientY-pointerDown[1]);
+  pointerDown = null;
+  if (moved > 6) return;
+  mouse.x = (e.clientX/innerWidth)*2 - 1;
+  mouse.y = -(e.clientY/innerHeight)*2 + 1;
+  ray.setFromCamera(mouse, camera);
+  const hitList = [];
+  for (const p of parts) for (const m of p.meshes) hitList.push(m);
+  const hits = ray.intersectObjects(hitList, false)
+                  .filter(h => h.object.visible !== false && (!h.object.parent || h.object.parent.visible !== false));
+  if (hits.length){
+    const hit = hits[0].object;
+    const p = parts.find(pp => pp.meshes.includes(hit));
+    if (p) selectPart(p);
+  }
+  else deselect();
+});
+document.getElementById('close').onclick = deselect;
+addEventListener('keydown', e => { if (e.key === 'Escape') deselect(); });
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+const btnSpin = document.getElementById('spin');
+function reflectSpin(){ btnSpin.textContent = '⚙ Rotación automática: ' + (controls.autoRotate ? 'ON' : 'OFF'); }
+document.getElementById('explode').onclick = () => { parts.forEach(p => p.open = true); touchMotion(2.4); };
+document.getElementById('reset').onclick   = () => { parts.forEach(p => p.open = false); touchMotion(2.4); deselect(); };
+btnSpin.onclick = () => { controls.autoRotate = !controls.autoRotate; reflectSpin(); requestRender(); };
+
+/* ============================================================
+   SIMULACIÓN DEL ESTUDIO
+   ============================================================ */
+const SIM = {
+  active:false, playing:false, t:0, total:19.8,
+  FADE_END:1.0, CLIP_START:1.0,
+  IN_START:5.6,  IN_END:8.0,        // entrada al túnel
+  SCAN_START:8.0, SCAN_END:15.0,    // adquisición
+  OUT_START:15.0, OUT_END:17.4,     // salida
+  FADE_OUT:18.2, FADE_OUT_END:19.6  // el paciente se retira
+};
+const $simPhase = document.getElementById('simPhase');
+const $simBar   = document.getElementById('simBar');
+const $simTime  = document.getElementById('simTime');
+const $simPlay  = document.getElementById('simPlay');
+const easeInOut = t => t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+const clamp01   = v => v < 0 ? 0 : v > 1 ? 1 : v;
+
+function fase(){
+  const t = SIM.t;
+  if (t < SIM.FADE_END)      return 'El paciente se aproxima';
+  if (t < 2.4)               return 'El paciente se sienta';
+  if (t < SIM.IN_START)      return 'Se tumba en la camilla';
+  if (t < SIM.IN_END)        return 'Entrando al túnel';
+  if (t < SIM.SCAN_END)      return 'Adquisición de imágenes';
+  if (t < SIM.OUT_END)       return 'Retirando la camilla';
+  if (t < SIM.FADE_OUT_END)  return 'El paciente se retira';
+  return 'Estudio completado';
+}
+
+function simSetEmissive(name, intensity){
+  const p = byName[name]; if (!p) return;
+  for (const m of p.mats){
+    if (m.emissiveIntensity !== undefined) m.emissiveIntensity = intensity;
+  }
+}
+
+function simReset(){
+  SIM.t = 0; SIM.playing = false; SIM.active = false;
+  patient.pivot.visible = false;
+  patient.mats.forEach(m => { m.opacity = 0; });
+  if (patient.action){ patient.action.time = 0; patient.mixer.update(0); }
+  patient.scene && patient.scene.traverse(o => { if (o.isMesh) o.castShadow = false; });
+  patient.pivot.position.set(0,0,0);
+  slideParts.forEach(p => p.offset.set(0,0,0));
+  sweep.visible = false; sweep.material.opacity = 0;
+  cage.visible = false;
+  for (const m of cage.userData.mats)
+    if (m.emissiveIntensity !== undefined) m.emissiveIntensity = m.userData.baseEmissiveIntensity;
+  if (cage.userData.top) cage.userData.top.rotation.x = -1.05;
+  const coil = byName['MRI_Head_Coil']; if (coil) coil.mesh.visible = true;
+  for (const p of parts){
+    for (const m of p.mats){
+      if (m.userData.baseEmissive && m.emissive) m.emissive.copy(m.userData.baseEmissive);
+      if (m.emissiveIntensity !== undefined) m.emissiveIntensity = m.userData.baseEmissiveIntensity ?? 1;
+    }
+  }
+  $simPlay.textContent = '▶ Iniciar simulación';
+  $simPhase.textContent = 'Listo para empezar';
+  $simBar.style.width = '0%'; $simTime.textContent = '0 %';
+  touchMotion(1.0);
+}
+
+$simPlay.onclick = () => {
+  if (!patient.ready){
+    $simPlay.disabled = true;
+    loadPatient(() => { $simPlay.disabled = false; $simPlay.onclick(); });
+    return;
+  }
+  if (!SIM.active || SIM.t >= SIM.total){
+    simReset();
+    SIM.active = true; SIM.playing = true;
+    patient.pivot.visible = true;
+    controls.autoRotate = false; reflectSpin();
+    flyTo(SIM_POS, SIM_LOOK, 1.2);
+    $simPlay.textContent = '⏸ Pausar';
+  } else {
+    SIM.playing = !SIM.playing;
+    $simPlay.textContent = SIM.playing ? '⏸ Pausar' : '▶ Continuar';
+  }
+};
+document.getElementById('simReset').onclick = simReset;
+
+function updateSim(dt){
+  if (!SIM.active) return;
+  if (SIM.playing) SIM.t = Math.min(SIM.t + dt, SIM.total);
+  const t = SIM.t;
+  needsRender = true;              // la simulación es dinámica: siempre se dibuja mientras está activa
+
+  // 1) aparición y despedida del paciente
+  const fade = t < SIM.FADE_OUT
+    ? clamp01(t / SIM.FADE_END)
+    : 1 - clamp01((t - SIM.FADE_OUT) / (SIM.FADE_OUT_END - SIM.FADE_OUT));
+  const present = fade > 0.02;
+  patient.pivot.visible = present;
+  patient.mats.forEach(m => { m.opacity = fade; });
+  const opaque = fade >= 0.99;
+  if (patient.scene) patient.scene.traverse(o => { if (o.isMesh) o.castShadow = opaque; });
+
+  // 2) animación de pie -> sentado -> tumbado
+  if (patient.action){
+    const ct = THREE.MathUtils.clamp(t - SIM.CLIP_START, 0, patient.dur);
+    patient.action.time = ct;
+    patient.mixer.update(0);
+  }
+
+  // 3) entrada / salida del túnel
+  let slide = 0;
+  if (t > SIM.IN_START && t < SIM.IN_END)        slide = easeInOut(clamp01((t-SIM.IN_START)/(SIM.IN_END-SIM.IN_START)));
+  else if (t >= SIM.IN_END && t <= SIM.OUT_START) slide = 1;
+  else if (t > SIM.OUT_START && t < SIM.OUT_END)  slide = 1 - easeInOut(clamp01((t-SIM.OUT_START)/(SIM.OUT_END-SIM.OUT_START)));
+  const off = slide * MAX_SLIDE;                 // Blender +Y  =  three.js  -Z
+  slideParts.forEach(p => p.offset.set(0, 0, -off));
+  patient.pivot.position.set(0, 0, -off);
+
+  // 4) bobina de cabeza: la tapa se CIERRA sobre el paciente (bisagra trasera)
+  const coilP = byName['MRI_Head_Coil'];
+  if (coilP) coilP.mesh.visible = !(present && t > 4.55);   // la placa del modelo cede el sitio a la bobina
+  const showCoil = present && t > 4.55 && t < SIM.OUT_END + 0.4 && cage.userData.ready;
+  cage.visible = showCoil;
+  if (showCoil && patient.head){
+    patient.pivot.updateMatrixWorld(true);          // sin esto Box3 usa la matriz del frame anterior
+    headBox.setFromObject(patient.head); headBox.getCenter(headWorld);
+    const headSize = headBox.getSize(new THREE.Vector3());
+    cage.position.set(headWorld.x, headBox.min.y - 0.010, headWorld.z);
+    cage.quaternion.identity();
+    const k = THREE.MathUtils.clamp(headSize.x / 0.235, 0.92, 1.18);
+    cage.scale.setScalar(k);
+    // cierre: 4,95 -> 5,85 s (la cabeza ya esta quieta), sin giro desde el techo
+    const close = easeInOut(clamp01((t - 4.95) / 0.90));
+    const top = cage.userData.top;
+    if (top) top.rotation.x = -(1 - close) * 1.05;
+    const pulse = (t >= SIM.SCAN_START && t <= SIM.SCAN_END)
+      ? 0.25 + 0.55*(0.5 + 0.5*Math.sin(t*7.0)) : 0.0;
+    for (const m of cage.userData.mats){
+      if (m.emissiveIntensity !== undefined)
+        m.emissiveIntensity = m.userData.baseEmissiveIntensity * (0.02 + 0.30*pulse);
+    }
+  }
+
+  // 5) adquisición: pulsos de luz + barrido
+  const scanning = t >= SIM.SCAN_START && t <= SIM.SCAN_END;
+  if (scanning){
+    const k = (t - SIM.SCAN_START) / (SIM.SCAN_END - SIM.SCAN_START);
+    const pulse = 0.5 + 0.5*Math.sin(t*7.0);
+    simSetEmissive('MRI_Bore_Light_Ring', 7 + 7*pulse);
+    simSetEmissive('MRI_Console_Screen', 2.0 + 2.4*pulse);
+    const ac = byName['MRI_Accent_Ring'];
+    if (ac) for (const m of ac.mats) if (m.emissive){
+      m.emissive.setHex(0x12a08a);
+      m.emissiveIntensity = 0.15 + 0.55*pulse;
+    }
+    sweep.visible = true;
+    sweep.material.opacity = 0.45;
+    sweep.position.z = 1.75 - 1.20*((t*0.55) % 1);   // barrido visible sobre el paciente hacia el túnel
+  } else if (t > SIM.SCAN_END){
+    sweep.visible = false; sweep.material.opacity = 0;
+    simSetEmissive('MRI_Bore_Light_Ring', 9);
+    simSetEmissive('MRI_Console_Screen', 2.2);
+    const ac2 = byName['MRI_Accent_Ring'];
+    if (ac2) for (const m of ac2.mats) if (m.emissive){ m.emissive.setHex(0x12a08a); m.emissiveIntensity = 0; }
+  }
+
+  // 6) ¿hay algo en movimiento? (si no, las sombras se congelan y se ahorra GPU)
+  SIM.moving = present && (t < SIM.IN_END || (t > SIM.OUT_START && t < SIM.FADE_OUT_END));
+
+  // 7) UI
+  $simPhase.textContent = fase();
+  const pct = Math.round(100 * t / SIM.total);
+  $simBar.style.width = pct + '%';
+  $simTime.textContent = pct + ' %';
+  if (t >= SIM.total && SIM.playing){ SIM.playing = false; SIM.active = false; $simPlay.textContent = '▶ Repetir'; }
+}
+
+/* ============================================================
+   BUCLE
+   ============================================================ */
+// Saltar a un instante de la simulación (depuración y capturas)
+window.__simSeek = (t) => {
+  SIM.active = true; SIM.playing = false; SIM.t = Math.min(t, SIM.total);
+  if (!patient.ready) loadPatient(() => { updateSim(0); renderer.render(scene, camera); });
+  else { updateSim(0); renderer.render(scene, camera); }
+  const top = cage.userData.top;
+  scene.updateMatrixWorld(true);
+  return { t: SIM.t, coil: cage.visible, ready: cage.userData.ready,
+           open: top ? +top.rotation.x.toFixed(3) : null,
+           pos: cage.position.toArray().map(v => +v.toFixed(3)),
+           head: headWorld.toArray().map(v => +v.toFixed(3)),
+           hmin: headBox.min.toArray().map(v => +v.toFixed(3)),
+           hmax: headBox.max.toArray().map(v => +v.toFixed(3)),
+           pivot: patient.pivot.position.toArray().map(v => +v.toFixed(3)) };
+};
+
+let last = performance.now()/1000;
+let fpsAcc = 0, fpsN = 0, fpsWin = 0, slowWins = 0;
+
+function animate(){
+  requestAnimationFrame(animate);
+  const now = performance.now()/1000;
+  const dt = Math.min(now - last, 0.1); last = now;
+
+  let piezasMoviendose = false;
+  for (const p of parts){
+    const target = p.open ? p.exploded : p.home;
+    p.cur.lerp(target, 0.12);
+    p.mesh.position.copy(p.cur).add(p.offset);
+    if (p.cur.distanceToSquared(target) > 1e-6) piezasMoviendose = true;
+  }
+
+  updateSim(dt);
+
+  if (tween){
+    const k = Math.min(1, (now - tween.t0) / tween.dur);
+    const e = easeInOut(k);
+    camera.position.lerpVectors(tween.fromPos, tween.toPos, e);
+    controls.target.lerpVectors(tween.fromLook, tween.toLook, e);
+    if (k >= 1) tween = null;
+  }
+  const camaraMovida = controls.update();
+
+  const sombras = now < motionUntil;
+  renderer.shadowMap.needsUpdate = sombras || (SIM.active && SIM.moving);
+  if (needsRender || piezasMoviendose || tween || camaraMovida || sombras || SIM.playing){
+    renderer.render(scene, camera);
+    needsRender = false;
+  }
+
+  // ajuste automático de calidad (solo cuenta frames que realmente dibujan)
+  if (needsRender === false){
+    fpsAcc += dt; fpsN++; fpsWin += dt;
+    if (fpsWin >= 1.2 && fpsN > 10){
+      const fps = fpsN / fpsAcc;
+      if (fps < 34 && tier > 0 && !qualityLocked){
+        slowWins++;
+        if (slowWins >= 2 || fps < 24){ tier--; applyQuality(true); slowWins = 0; }
+      } else slowWins = 0;
+      fpsAcc = 0; fpsN = 0; fpsWin = 0;
+    }
+  }
+}
+animate();
+
+// hooks de depuración / pruebas
+window.__sim = SIM;
+window.__patient = patient;
+window.__cage = cage;
+window.__sweep = sweep;
+window.__byName = byName;
+window.__slideZ = () => slideParts.length ? slideParts[0].offset.z : 0;
+window.__scanning = () => sweep.visible;
+window.__requestRender = requestRender;
+window.__camera = camera;
+window.__controls = controls;
+window.__THREE = THREE;
+window.__project = (name) => {
+  const o = (byName[name] ? byName[name].mesh : null) ||
+            (patient.scene ? patient.scene.getObjectByName(name) : null);
+  if (!o) return null;
+  const c = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3());
+  c.project(camera);
+  return [ (c.x*0.5+0.5)*innerWidth, (-c.y*0.5+0.5)*innerHeight, +c.z.toFixed(3) ];
+};
+window.__setPatientVisible = (v) => { patient.pivot.visible = v; needsRender = true; };
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  updateViews();
+  if (!selected && !SIM.active) flyTo(HOME_POS, HOME_LOOK, 0.5);
+  requestRender();
+});
+</script>
+</body>
+</html>
