@@ -17,7 +17,6 @@ Maqueta interactiva de un sistema de resonancia magnética **MERIDIAN 3T** (3.0 
 ## Estructura del proyecto
 
 ```text
-```
 meridian-3t/
 ├── assets/                # assets generales (si aplica)
 ├── blender/               # scripts para regenerar modelos/sala/paciente
@@ -276,16 +275,3 @@ El demo usa **Three.js desde CDN** (`cdn.jsdelivr.net`). Para funcionar 100% off
 - **GLTF/GLB**: formatos estándares.
 
 ---
-
-**Última actualización**: documentación generada a partir del estado actual del repo (paciente con pelo reconstruido, bobina separada, simulación 26.5s, tests verdes). Para cambios funcionales, modificar `demo/assets/js/viewer.js`, `main.js`, `specs.js` manteniendo el contrato de **32 piezas** y sin romper la simulación.
-=======
-- **F1 · modelo**: hecho. 32 piezas, 64 288 triángulos, 4,9 MB de GLB.
-- **F1.5 · piezas clave**: hecho. Bobina de cabeza como GLB aparte, consola y
-  pedestal de mesa con detalle mecánico. `tools/test_viewer.py` en verde.
-- **F2 · landing**: prototipo hecho en `demo/`. Sticky canvas, narrativa por
-  scroll, explosión, ficha por pieza y simulación de exploración.
-- **F3 · extras** (radiografía, corte, AR): pendientes.
-- **F4 · compresión**: pendiente — Draco + KTX2/WebP bajarían el GLB de 4,9 MB
-  a ~1,2 MB. Ahora mismo las 6 texturas van en PNG sin comprimir.
-- **F5 · presentación**: ficha PDF hecha; vídeo pendiente.
->>>>>>> 5dfed8ae64ae50fd24c8504c8e47b4567c1f85c4
